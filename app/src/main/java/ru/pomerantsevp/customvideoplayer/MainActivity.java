@@ -32,16 +32,6 @@ public class MainActivity extends ActionBarActivity implements TextureView.Surfa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Log.v(TAG, getExternalMediaDirs(Environment.DIRECTORY_MOVIES).toString());
-//        for (File file : getExternalFilesDir(Environment.DIRECTORY_MOVIES).listFiles()) {
-//            Log.v(TAG, file.getName());
-//        }
-//        File videoFile = new File(Uri.parse("content://com.google.android.apps.photos.contentprovider/0/2/content%3A%2F%2Fmedia%2Fexternal%2Fvideo%2Fmedia%2F6172/ACTUAL/2008344195"));
-//        File videoDirectory = new File(MediaStore.Video.Media.EXTERNAL_CONTENT_URI.getPath());
-//        for (File file : videoDirectory.listFiles()) {
-//            Log.v(TAG, file.getName());
-//        }
-//        Log.v(TAG, MediaStore.Video.Media.EXTERNAL_CONTENT_URI.getPath());
         Log.v(TAG, new File(Environment.getExternalStorageDirectory(), "long-video.mp4").getName());
 
         mTextureView = (TextureView) findViewById(R.id.movie_texture_view);
