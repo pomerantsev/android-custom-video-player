@@ -21,7 +21,7 @@ import java.nio.ByteBuffer;
  */
 public class MoviePlayer {
     private static final String TAG = MainActivity.TAG;
-    private static final boolean VERBOSE = false;
+    private static final boolean VERBOSE = true;
 
     // Declare this here to reduce allocations.
     private MediaCodec.BufferInfo mBufferInfo = new MediaCodec.BufferInfo();
@@ -316,6 +316,8 @@ public class MoviePlayer {
                                     extractor.getSampleTrackIndex() + ", expected " + trackIndex);
                         }
                         long presentationTimeUs = extractor.getSampleTime();
+                        Log.d(TAG, "time elapsed: " + Math.round((System.nanoTime() - firstInputTimeNsec) / 1000000f));
+                        Log.d(TAG, "presentation time: " + Math.round(presentationTimeUs / 1000f));
                         decoder.queueInputBuffer(inputBufIndex, 0, chunkSize,
                                 presentationTimeUs, 0 /*flags*/);
                         if (VERBOSE) {
@@ -346,13 +348,13 @@ public class MoviePlayer {
                             "unexpected result from decoder.dequeueOutputBuffer: " +
                                     decoderStatus);
                 } else { // decoderStatus >= 0
-                    if (firstInputTimeNsec != 0) {
-                        // Log the delay from the first buffer of input to the first buffer
-                        // of output.
-                        long nowNsec = System.nanoTime();
-                        Log.d(TAG, "startup lag " + ((nowNsec-firstInputTimeNsec) / 1000000.0) + " ms");
-                        firstInputTimeNsec = 0;
-                    }
+//                    if (firstInputTimeNsec != 0) {
+//                        // Log the delay from the first buffer of input to the first buffer
+//                        // of output.
+//                        long nowNsec = System.nanoTime();
+//                        Log.d(TAG, "startup lag " + ((nowNsec-firstInputTimeNsec) / 1000000.0) + " ms");
+//                        firstInputTimeNsec = 0;
+//                    }
                     boolean doLoop = false;
                     if (VERBOSE) Log.d(TAG, "surface decoder given buffer " + decoderStatus +
                             " (size=" + mBufferInfo.size + ")");
@@ -371,20 +373,20 @@ public class MoviePlayer {
                     // to SurfaceTexture to convert to a texture.  We can't control when it
                     // appears on-screen, but we can manage the pace at which we release
                     // the buffers.
-                    if (doRender && frameCallback != null) {
-                        frameCallback.preRender(mBufferInfo.presentationTimeUs);
-                    }
+//                    if (doRender && frameCallback != null) {
+//                        frameCallback.preRender(mBufferInfo.presentationTimeUs);
+//                    }
                     decoder.releaseOutputBuffer(decoderStatus, doRender);
-                    if (doRender && frameCallback != null) {
-                        frameCallback.postRender();
-                    }
+//                    if (doRender && frameCallback != null) {
+//                        frameCallback.postRender();
+//                    }
 
                     if (doLoop) {
                         Log.d(TAG, "Reached EOS, looping");
                         extractor.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
                         inputDone = false;
                         decoder.flush();    // reset decoder state
-                        frameCallback.loopReset();
+//                        frameCallback.loopReset();
                     }
                 }
             }
