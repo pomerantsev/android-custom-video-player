@@ -27,8 +27,6 @@ public class MainActivity extends ActionBarActivity implements TextureView.Surfa
     private MoviePlayer.PlayTask mPlayTask;
     private boolean mSurfaceTextureReady = false;
 
-    private final Object mStopper = new Object();   // used to signal stop
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
